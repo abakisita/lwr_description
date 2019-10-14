@@ -1,0 +1,48 @@
+
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'launch'))  # noqa
+
+import launch
+import launch.actions
+import launch.events
+
+from launch_ros import get_default_launch_description
+import launch_ros.actions
+import launch_ros.events
+import launch_ros.events.lifecycle
+
+import lifecycle_msgs.msg
+
+
+def main(argv=sys.argv[1:]):
+    """Main."""
+    ld = launch.LaunchDescription()
+
+    world_ns_connector_stp_node = launch_ros.actions.Node(
+        node_name='world_ns_connector',
+        package='tf2_ros', node_executable='static_transform_publisher',
+        parameters=[0, 0, 0, 0, 0, 0, '/world'. '/robot/world'], output='screen')
+
+
+    ld.add_action(talker_node)
+
+    print('Starting introspection of launch description...')
+    print('')
+
+    print(launch.LaunchIntrospector().format_launch_description(ld))
+
+    print('')
+    print('Starting launch of launch description...')
+    print('')
+
+    # ls = launch.LaunchService(argv=argv, debug=True)
+    ls = launch.LaunchService(argv=argv)
+    ls.include_launch_description(get_default_launch_description())
+    ls.include_launch_description(ld)
+    return ls.run()
+
+
+if __name__ == '__main__':
+    main()
