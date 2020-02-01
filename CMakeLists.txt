@@ -39,6 +39,6 @@ install(DIRECTORY
 )
 ament_index_register_resource(rviz_ogre_media_exports CONTENT ${OGRE_MEDIA_RESOURCE_FILE})
 
-register_rviz_ogre_media_exports(DIRECTORIES meshes urdf robots gazebo)
+#register_rviz_ogre_media_exports(DIRECTORIES meshes urdf robots gazebo)
 
 ament_package()
